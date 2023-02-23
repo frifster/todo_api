@@ -29,4 +29,14 @@ export class AuthService {
       access_token: this.jwtService.sign(payload),
     };
   }
+
+  async findUserByToken(token: string) {
+    const decoded = await this.jwtService.verifyAsync(token);
+    const userId = decoded.id;
+
+    const user = this.userService.getUserById(userId);
+    console.log('user', user);
+
+    return user;
+  }
 }

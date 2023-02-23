@@ -36,4 +36,8 @@ export class UserService {
 
     return createUser.save();
   }
+
+  async getUserById(id: string) {
+    return this.userModel.findById(id).exec();
+  }
 }
