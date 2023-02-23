@@ -30,7 +30,6 @@ export class TodoController {
   @UseGuards(AuthGuard('jwt'))
   @Post('/delete')
   async deleteTodo(@Body() todo: TodoDocument) {
-    console.log('todoId', todo);
     return this.todoService.deleteTodo(todo.id);
   }
 

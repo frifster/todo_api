@@ -35,7 +35,6 @@ export class AuthService {
     const userId = decoded.id;
 
     const user = this.userService.getUserById(userId);
-    console.log('user', user);
 
     return user;
   }
