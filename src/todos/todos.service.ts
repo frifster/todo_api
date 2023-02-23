@@ -15,12 +15,13 @@ export class TodosService {
   }
 
   async updateTodo(todo: TodoDocument) {
-    return this.todoModel.findByIdAndUpdate(todo.id, { ...todo });
+    await this.todoModel.findByIdAndUpdate(todo.id, { ...todo });
+    return { message: 'Successfully Updated Todo ID: ' + todo.id };
   }
 
   async deleteTodo(todoId: string) {
     try {
-      return this.todoModel.deleteOne({ id: todoId });
+      return this.todoModel.findByIdAndDelete(todoId);
     } catch (e) {
       return new BadRequestException();
     }

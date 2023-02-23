@@ -5,6 +5,7 @@ import {
   UseGuards,
   Delete,
   Patch,
+  Req,
 } from '@nestjs/common';
 import { TodoDocument } from './todos.model';
 import { TodosService } from './todos.service';
@@ -16,8 +17,8 @@ export class TodoController {
 
   @UseGuards(AuthGuard('jwt'))
   @Post('/create')
-  async createTodo(@Body() todo: TodoDocument) {
-    return this.todoService.createTodo(todo);
+  async createTodo(@Body() todo: TodoDocument, @Req() req) {
+    return this.todoService.createTodo({ ...todo, userId: req.user.userId });
   }
 
   @UseGuards(AuthGuard('jwt'))
@@ -27,14 +28,15 @@ export class TodoController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Delete('/delete')
-  async deleteTodo(@Body() todoId: string) {
-    return this.todoService.deleteTodo(todoId);
+  @Post('/delete')
+  async deleteTodo(@Body() todo: TodoDocument) {
+    console.log('todoId', todo);
+    return this.todoService.deleteTodo(todo.id);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Post('/view')
-  async viewTodos(@Body() userId: string) {
-    return this.todoService.getAllTodosByUserID(userId);
+  async viewTodos(@Req() req) {
+    return this.todoService.getAllTodosByUserID(req.user.userId);
   }
 }
